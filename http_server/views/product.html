@@ -1,0 +1,20 @@
+<!--views/product.html-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{.Name}}</title>
+</head>
+<body>
+    <h1>{{.Name}}</h1>
+    <p>{{.Description}} </p>
+    <p>Price : <strong>{{.Price}}</strong> $</p>
+    <h2>Delivery options</h2>
+        <ul>
+            <li>Express + 2$ </li>
+            <li>Ultra Express + 5$</li>
+            <li>Normal</li>
+        </ul>
+    <p>Shipping Date : {{.ShippingDate.Format "2006-01-02"}}</p>
+</body>
+
+</html>
