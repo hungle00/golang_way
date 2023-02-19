@@ -6,6 +6,8 @@ import (
 	"html/template"
 	"net/http"
 	"time"
+	"log"
+	"os"
 )
 
 type Product struct {
@@ -14,6 +16,8 @@ type Product struct {
 	Description  string
 	ShippingDate time.Time
 }
+
+var logger = log.New(os.Stdout, "", 0)
 
 // Rendering a HTML Template
 func productHandler(w http.ResponseWriter, r *http.Request) {
@@ -41,15 +45,35 @@ func productJsonHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(json)
 }
 
+func helloHandler(w http.ResponseWriter, r *http.Request) {
+    w.Write([]byte("hello"))
+}
+
+func timeMiddleware(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        // ghi nhận thời gian trước khi chạy
+        timeStart := time.Now()
+
+        // next là hàm business logic được truyền vào
+        next.ServeHTTP(w, r)
+        // tính toán thời gian thực thi
+        timeElapsed := time.Since(timeStart)
+        // log ra thời gian thực thi
+        logger.Println(timeElapsed)
+    })
+}
+
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Product Handler")
 		message := []byte("Welcome to product!")
 		w.Write(message)
 	})
+	http.Handle("/hello", timeMiddleware(http.HandlerFunc(helloHandler)))
+	http.Handle("/product.json", timeMiddleware(http.HandlerFunc(productJsonHandler)))
 
 	http.HandleFunc("/product", productHandler)
-	http.HandleFunc("/product.json", productJsonHandler)
+	// http.HandleFunc("/product.json", productJsonHandler)
 
 	if err := http.ListenAndServe("localhost:8080", nil); err != nil {
 		panic(err)
