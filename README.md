@@ -1,4 +1,6 @@
-# Golang way
+# Golang Practice
+
+Learning Golang by exploring some topics and building some practical examples
 
 ## Basic knowledge
 - Pointer
@@ -12,8 +14,6 @@
 - Goroutine
 - Channel
 
-## Web dev
-- net/http
-- Middleware
-- Gin
-- Connect db
+## Practical examples
+- HTTP server
+- DNS lookup server

@@ -12,7 +12,6 @@ type employee struct {
 func New(firstName string, lastName string, totalLeaves int, leavesTaken int) employee {
 	e := employee{firstName, lastName, totalLeaves, leavesTaken}
 	return e
-
 }
 
 func (e employee) LeavesRemaining() {
